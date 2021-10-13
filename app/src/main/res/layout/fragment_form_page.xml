@@ -24,7 +24,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text_input"
-            android:text="@={viewmodel.pagesLiveData.get(position).text}"
+            android:text="@={pageLiveData.text}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
