@@ -12,6 +12,6 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction().add(R.id.frame_container, FormFragment()).commit()
+//        supportFragmentManager.beginTransaction().add(R.id.frame_container, FormFragment()).commit()
     }
 }
