@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.kid.playground.R
@@ -36,4 +37,15 @@ object HeartbeatUtils {
         val rtcWakeup = AlarmManager.RTC_WAKEUP
         alarmManager.setExact(rtcWakeup, triggerAtMillis, broadcastPendingIntent)
     }
+
+    fun sendFcmBroadcast(context: Context) {
+        Log.d("chi.trinh","send heartbeat")
+        context.sendBroadcast(GTALK_HEART_BEAT_INTENT)
+        context.sendBroadcast(MCS_MCS_HEARTBEAT_INTENT)
+    }
+
+    private val GTALK_HEART_BEAT_INTENT: Intent =
+        Intent("com.google.android.intent.action.GTALK_HEARTBEAT")
+    private val MCS_MCS_HEARTBEAT_INTENT: Intent =
+        Intent("com.google.android.intent.action.MCS_HEARTBEAT")
 }
