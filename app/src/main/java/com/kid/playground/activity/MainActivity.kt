@@ -12,8 +12,8 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        HeartbeatUtils.sendFcmBroadcast(this)
         HeartbeatUtils.cancelRequest(this)
+        HeartbeatUtils.sendFcmBroadcast(this)
         HeartbeatUtils.scheduleHeartbeatRequest(this)
     }
 }
