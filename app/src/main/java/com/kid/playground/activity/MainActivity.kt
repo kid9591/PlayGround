@@ -1,20 +1,26 @@
 package com.kid.playground.activity
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
-import android.util.Log
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.widget.Button
+import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import com.kid.playground.R
+import com.xiaopo.flying.sticker.*
+import kotlin.math.roundToInt
 
+
+//https://stackoverflow.com/questions/15091790/how-to-outline-a-textview
+//https://www.android-examples.com/add-set-bitmapshader-texture-effect-on-textview-text-in-android/
+//https://stackoverflow.com/questions/14791012/android-textured-text
 
 class MainActivity : FragmentActivity() {
+
+    private lateinit var stickerView: StickerView
+
+    private lateinit var imageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,111 +28,52 @@ class MainActivity : FragmentActivity() {
 
 //        requestStoragePermission()
 
-        val wv = findViewById<WebView>(R.id.wv)
-        setupWebView(wv)
-        wv.loadUrl("http://altwerden-in-vrees.de:8080/Video_Client/frontend/login.xhtml")
-        initiateSkypeUri(this, "skype:live:.cid.902d3440bd53874e?call")
-    }
+//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.grass)
+//        val tv = SuperTextView(this, -0xff7f01, 10f, bitmap)
+//        tv.setBackgroundColor(resources.getColor(android.R.color.darker_gray))
+//        tv.setShadowLayer(10f, 0f, 0f, Color.GRAY)
+//        tv.text = "Simple test"
+//        tv.textSize = 40f
 
-    private fun setupWebView(wv: WebView) {
-        wv.apply {
-                settings.apply {
-                    javaScriptEnabled = true
-                    domStorageEnabled = true
-                    loadWithOverviewMode = true
-                    mediaPlaybackRequiresUserGesture = false
-                    allowContentAccess = true
-                    allowFileAccess = true
-                    allowFileAccessFromFileURLs = true
-                    allowUniversalAccessFromFileURLs = true
-                    isNestedScrollingEnabled = true
-                }
-                webViewClient = BrowserWebViewClient()
 
-//            webChromeClient = BrowserWebChromeClient()
-
-//            setDownloadListener { url, _, _, _, _ ->
-//                startActivity(Intent(Intent.ACTION_VIEW).apply {
-//                    data = Uri.parse(url)
-//                })
-//            }
-
-//            if (hostViewModel.isNetworkAvailable) {
-//                if (isPdfFile) {
-//                    loadUrl("${PDF_VIEWER_URL}${arg.url}")
-//                } else {
-//                    loadUrl(arg.url)
-//                }
+//        stickerView = findViewById<StickerView>(R.id.sticker_view)
 //
-//            } else {
-//                noInternetDialog.show()
-//            }
+//        stickerView.addSticker(
+//            DrawableSticker(getDrawable(R.drawable.sample)),
+//            Sticker.Position.CENTER
+////            TextSticker(applicationContext)
+////                .setText("Sticker")
+////                .setMaxTextSize(14f), Sticker.Position.TOP
+//        )
+
+
+        imageView = findViewById(R.id.imageView)
+        findViewById<Button>(R.id.button).setOnClickListener {
+            test()
         }
     }
 
-    inner class BrowserWebViewClient : WebViewClient() {
+    private fun test() {
+        val dWidth = imageView.drawable.intrinsicWidth
+        val dHeight = imageView.drawable.intrinsicHeight
 
-        override fun shouldOverrideUrlLoading(
-            view: WebView?,
-            request: WebResourceRequest?
-        ): Boolean {
-            val url = request?.url.toString()
-            Log.d("chi.trinh","override url: $url")
-            if (url.contains("skype")) {
-                initiateSkypeUri(this@MainActivity, url)
-            } else {
-                view?.loadUrl(request?.url.toString())
-            }
-            return true
-        }
+        val vWidth = imageView.measuredWidth
+        val vHeight = imageView.measuredHeight
 
-        override fun onPageFinished(view: WebView?, url: String?) {
-            super.onPageFinished(view, url)
-            Log.d("chi.trinh","onPageFinished: $url")
+        imageView.imageMatrix = Matrix().apply {
+            //move image to center of imageview
+//            setTranslate(
+//                ((vWidth - dWidth) * 0.5f),
+//                ((vHeight - dHeight) * 0.5f)
+//            )
+
+            //flip vertical
+//            setScale(-1f,1f, dWidth/2f, 0f)
+
+//            setSkew(0f, 2f, dWidth / 2f, dHeight / 2f)
+
+            //rotate 45 degree clockwise
+            setRotate(45f, dWidth / 2f, dHeight / 2f)
         }
     }
-
-    fun initiateSkypeUri(myContext: Context, mySkypeUri: String?) {
-
-        // Make sure the Skype for Android client is installed.
-        if (!isSkypeClientInstalled(myContext)) {
-            goToMarket(myContext)
-            return
-        }
-
-        // Create the Intent from our Skype URI.
-        val skypeUri = Uri.parse(mySkypeUri)
-        val myIntent = Intent(Intent.ACTION_VIEW, skypeUri)
-
-        // Restrict the Intent to being handled by the Skype for Android client only.
-//        myIntent.component = ComponentName("com.skype.raider", "com.skype.raider.Main")
-        myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
-        // Initiate the Intent. It should never fail because you've already established the
-        // presence of its handler (although there is an extremely minute window where that
-        // handler can go away).
-        myContext.startActivity(myIntent)
-        return
-    }
-
-    fun goToMarket(myContext: Context) {
-        val marketUri = Uri.parse("market://details?id=com.skype.raider")
-        val myIntent = Intent(Intent.ACTION_VIEW, marketUri)
-        myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        myContext.startActivity(myIntent)
-        return
-    }
-
-
-    fun isSkypeClientInstalled(myContext: Context): Boolean {
-        val myPackageMgr = myContext.packageManager
-        try {
-            myPackageMgr.getPackageInfo("com.skype.raider", 0)
-        } catch (e: PackageManager.NameNotFoundException) {
-            return false
-        }
-        return true
-    }
-
-
 }
