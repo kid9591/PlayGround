@@ -2,7 +2,9 @@ package com.xiaopo.flying.sticker;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -35,14 +37,19 @@ public class TextSticker extends Sticker {
    */
   private static final String mEllipsis = "\u2026";
 
+  private int textPadding = 0;
+
   private final Context context;
   private final Rect realBounds;
   private final Rect textRect;
   private final TextPaint textPaint;
+  private final TextPaint textBorderPaint;
+  private final Paint backgroundPaint;
+  private final Paint originPointPaint;
   private Drawable drawable;
   private StaticLayout staticLayout;
   private Layout.Alignment alignment;
-  private String text;
+  private String text = "";
 
   /**
    * Upper bounds for text size.
@@ -64,6 +71,18 @@ public class TextSticker extends Sticker {
    * Additional line spacing.
    */
   private float lineSpacingExtra = 0.0f;
+  /**
+   * Enable background color
+   */
+  private boolean backgroundEnable = false;
+  /**
+   * Enable border color
+   */
+  private boolean borderEnable = false;
+//  /**
+//   * Alpha value of this sticker
+//   */
+//  private int alpha = 255;
 
   public TextSticker(@NonNull Context context) {
     this(context, null);
@@ -75,13 +94,21 @@ public class TextSticker extends Sticker {
     if (drawable == null) {
       this.drawable = ContextCompat.getDrawable(context, R.drawable.sticker_transparent_background);
     }
+    textPadding = Math.round(8 * context.getResources().getDisplayMetrics().density);
     textPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+    textBorderPaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
+    textBorderPaint.setStyle(Paint.Style.STROKE);
+    textBorderPaint.setStrokeWidth(convertSpToPx(2));
+    backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    originPointPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    originPointPaint.setColor(Color.BLUE);
     realBounds = new Rect(0, 0, getWidth(), getHeight());
     textRect = new Rect(0, 0, getWidth(), getHeight());
     minTextSizePixels = convertSpToPx(6);
     maxTextSizePixels = convertSpToPx(32);
     alignment = Layout.Alignment.ALIGN_CENTER;
     textPaint.setTextSize(maxTextSizePixels);
+    textBorderPaint.setTextSize(maxTextSizePixels);
   }
 
   @Override public void draw(@NonNull Canvas canvas) {
@@ -94,27 +121,74 @@ public class TextSticker extends Sticker {
     }
     canvas.restore();
 
+//    canvas.save();
+//    canvas.concat(matrix);
+//    if (textRect.width() == getWidth()) {
+//      int dy = getHeight() / 2 - staticLayout.getHeight() / 2;
+//      // center vertical
+//      canvas.translate(0, dy);
+//    } else {
+//      int dx = textRect.left;
+//      int dy = textRect.top + textRect.height() / 2 - staticLayout.getHeight() / 2;
+//      canvas.translate(dx, dy);
+//    }
+//
+//    staticLayout.draw(canvas);
+//    canvas.restore();
+
     canvas.save();
     canvas.concat(matrix);
-    if (textRect.width() == getWidth()) {
-      int dy = getHeight() / 2 - staticLayout.getHeight() / 2;
-      // center vertical
-      canvas.translate(0, dy);
-    } else {
-      int dx = textRect.left;
-      int dy = textRect.top + textRect.height() / 2 - staticLayout.getHeight() / 2;
-      canvas.translate(dx, dy);
+
+    int dx = textPadding;
+    float dy = getHeight() / 2f - getTextBounds().exactCenterY();
+
+    canvas.translate(dx, dy);
+
+    if (backgroundEnable) {
+      Rect textBounds = getTextBounds();
+      Rect backgroundBounds = new Rect(
+              textBounds.left - textPadding,
+              textBounds.top - textPadding,
+              textBounds.right + textPadding,
+              textBounds.bottom + textPadding
+      );
+      canvas.drawRect(backgroundBounds, backgroundPaint);
     }
-    staticLayout.draw(canvas);
+    if (borderEnable) {
+      canvas.drawText(text, 0, 0, textBorderPaint);
+    }
+    canvas.drawText(text, 0,0, textPaint);
+    canvas.drawCircle(0,0, 5f, originPointPaint);
+
     canvas.restore();
   }
 
   @Override public int getWidth() {
-    return drawable.getIntrinsicWidth();
+    return getTextWidth() + 2 * textPadding;
+//    return drawable.getIntrinsicWidth();
   }
 
   @Override public int getHeight() {
-    return drawable.getIntrinsicHeight();
+    return getTextHeight() + 2 * textPadding;
+//    return drawable.getIntrinsicHeight();
+  }
+
+  private int getTextHeight() {
+    Rect bounds = new Rect();
+    textPaint.getTextBounds(text, 0, text.length(), bounds);
+    return bounds.height();
+  }
+
+  private int getTextWidth() {
+    Rect bounds = new Rect();
+    textPaint.getTextBounds(text, 0, text.length(), bounds);
+    return bounds.width();
+  }
+
+  private Rect getTextBounds() {
+    Rect bounds = new Rect();
+    textPaint.getTextBounds(text, 0, text.length(), bounds);
+    return bounds;
   }
 
   @Override public void release() {
@@ -126,6 +200,8 @@ public class TextSticker extends Sticker {
 
   @NonNull @Override public TextSticker setAlpha(@IntRange(from = 0, to = 255) int alpha) {
     textPaint.setAlpha(alpha);
+    textBorderPaint.setAlpha(alpha);
+    backgroundPaint.setAlpha(alpha);
     return this;
   }
 
@@ -153,11 +229,14 @@ public class TextSticker extends Sticker {
 
   @NonNull public TextSticker setTypeface(@Nullable Typeface typeface) {
     textPaint.setTypeface(typeface);
+    textBorderPaint.setTypeface(typeface);
     return this;
   }
 
   @NonNull public TextSticker setTextColor(@ColorInt int color) {
+    int currentAlpha = textPaint.getAlpha();
     textPaint.setColor(color);
+    textPaint.setAlpha(currentAlpha);
     return this;
   }
 
@@ -168,7 +247,32 @@ public class TextSticker extends Sticker {
 
   @NonNull public TextSticker setMaxTextSize(@Dimension(unit = Dimension.SP) float size) {
     textPaint.setTextSize(convertSpToPx(size));
+    textBorderPaint.setTextSize(convertSpToPx(size));
     maxTextSizePixels = textPaint.getTextSize();
+    return this;
+  }
+
+  @NonNull public TextSticker setBackgroundColorEnable(boolean enable) {
+    backgroundEnable = enable;
+    return this;
+  }
+
+  @NonNull public TextSticker setBackgroundColor(@ColorInt int color) {
+    int currentAlpha = backgroundPaint.getAlpha();
+    backgroundPaint.setColor(color);
+    backgroundPaint.setAlpha(currentAlpha);
+    return this;
+  }
+
+  @NonNull public TextSticker setBorderColorEnable(boolean enable) {
+    borderEnable = enable;
+    return this;
+  }
+
+  @NonNull public TextSticker setBorderColor(@ColorInt int color) {
+    int currentAlpha = textBorderPaint.getAlpha();
+    textBorderPaint.setColor(color);
+    textBorderPaint.setAlpha(currentAlpha);
     return this;
   }
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activity.MainActivity"
     tools:ignore="NamespaceTypo">
@@ -20,39 +21,88 @@
     <!--        android:shadowDy="20"-->
     <!--        />-->
 
-    <!--    <com.xiaopo.flying.sticker.StickerView-->
-    <!--        android:id="@+id/sticker_view"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_gravity="center"-->
-    <!--        android:layout_weight="1"-->
-    <!--        app:showBorder="true"-->
-    <!--        app:showIcons="true"-->
-    <!--        >-->
+        <com.xiaopo.flying.sticker.StickerView
+            android:id="@+id/sticker_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:showBorder="true"
+            app:showIcons="true"
+            >
 
-    <!--    </com.xiaopo.flying.sticker.StickerView>-->
+        </com.xiaopo.flying.sticker.StickerView>
 
-    <RelativeLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+<!--    <RelativeLayout-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp">-->
 
-        <ImageView
-            android:background="@android:color/darker_gray"
-            android:scaleType="matrix"
-            android:id="@+id/imageView"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/sample" />
+<!--        <ImageView-->
+<!--            android:background="@android:color/darker_gray"-->
+<!--            android:scaleType="matrix"-->
+<!--            android:id="@+id/imageView"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:src="@drawable/sample" />-->
 
-    </RelativeLayout>
+<!--    </RelativeLayout>-->
 
-    <Button
-        android:id="@+id/button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <Button
+            android:id="@+id/btnTextColor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Text Color" />
+        <Button
+            android:layout_marginStart="5dp"
+            android:id="@+id/btnTextSize"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Text Size" />
+        <Button
+            android:layout_marginStart="5dp"
+            android:id="@+id/btnBorderColor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Border Color" />
+        <Button
+            android:layout_marginStart="5dp"
+            android:id="@+id/btnBGColor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="BG Color" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <Button
+            android:id="@+id/btnTextAlpha"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Text Alpha" />
+        <Button
+            android:layout_marginStart="5dp"
+            android:id="@+id/btnFont"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Font" />
+    </LinearLayout>
 
 
 </LinearLayout>

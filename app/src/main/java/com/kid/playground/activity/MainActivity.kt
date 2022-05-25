@@ -1,15 +1,13 @@
 package com.kid.playground.activity
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.Typeface
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import com.kid.playground.R
 import com.xiaopo.flying.sticker.*
-import kotlin.math.roundToInt
 
 
 //https://stackoverflow.com/questions/15091790/how-to-outline-a-textview
@@ -36,20 +34,47 @@ class MainActivity : FragmentActivity() {
 //        tv.textSize = 40f
 
 
-//        stickerView = findViewById<StickerView>(R.id.sticker_view)
-//
-//        stickerView.addSticker(
+        stickerView = findViewById<StickerView>(R.id.sticker_view)
+
+        val textSticker = TextSticker(applicationContext)
+            .setText("They are Sticker Sticker Sticker")
+            .setMaxTextSize(24f)
+
+        stickerView.addSticker(
 //            DrawableSticker(getDrawable(R.drawable.sample)),
 //            Sticker.Position.CENTER
-////            TextSticker(applicationContext)
-////                .setText("Sticker")
-////                .setMaxTextSize(14f), Sticker.Position.TOP
-//        )
+            textSticker,
+            Sticker.Position.TOP
+        )
 
 
-        imageView = findViewById(R.id.imageView)
-        findViewById<Button>(R.id.button).setOnClickListener {
-            test()
+        findViewById<Button>(R.id.btnTextSize).setOnClickListener {
+            textSticker.setMaxTextSize(100f)
+            stickerView.invalidate()
+        }
+        findViewById<Button>(R.id.btnTextColor).setOnClickListener {
+            textSticker.setTextColor(resources.getColor(android.R.color.holo_blue_bright,null))
+            stickerView.invalidate()
+        }
+        findViewById<Button>(R.id.btnBorderColor).setOnClickListener {
+            textSticker
+                .setBorderColorEnable(true)
+                .setBorderColor(resources.getColor(android.R.color.white,null))
+            stickerView.invalidate()
+        }
+        findViewById<Button>(R.id.btnBGColor).setOnClickListener {
+            textSticker
+                .setBackgroundColorEnable(true)
+                .setBackgroundColor(resources.getColor(android.R.color.holo_red_dark,null))
+            stickerView.invalidate()
+        }
+        findViewById<Button>(R.id.btnFont).setOnClickListener {
+            textSticker.setTypeface(Typeface.createFromAsset(assets, "waltograph42.ttf"))
+            stickerView.invalidate()
+        }
+        findViewById<Button>(R.id.btnTextAlpha).setOnClickListener {
+            textSticker.setAlpha(100)
+            stickerView.invalidate()
         }
     }
 
@@ -62,10 +87,11 @@ class MainActivity : FragmentActivity() {
 
         imageView.imageMatrix = Matrix().apply {
             //move image to center of imageview
-//            setTranslate(
-//                ((vWidth - dWidth) * 0.5f),
-//                ((vHeight - dHeight) * 0.5f)
-//            )
+            postTranslate(
+                ((vWidth - dWidth) * 0.5f),
+                ((vHeight - dHeight) * 0.5f)
+            )
+            preScale(0.5f, 0.5f, dWidth / 2f, dHeight / 2f)
 
             //flip vertical
 //            setScale(-1f,1f, dWidth/2f, 0f)
@@ -73,7 +99,7 @@ class MainActivity : FragmentActivity() {
 //            setSkew(0f, 2f, dWidth / 2f, dHeight / 2f)
 
             //rotate 45 degree clockwise
-            setRotate(45f, dWidth / 2f, dHeight / 2f)
+//            setRotate(45f, dWidth / 2f, dHeight / 2f)
         }
     }
 }
