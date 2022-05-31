@@ -121,21 +121,6 @@ public class TextSticker extends Sticker {
     }
     canvas.restore();
 
-//    canvas.save();
-//    canvas.concat(matrix);
-//    if (textRect.width() == getWidth()) {
-//      int dy = getHeight() / 2 - staticLayout.getHeight() / 2;
-//      // center vertical
-//      canvas.translate(0, dy);
-//    } else {
-//      int dx = textRect.left;
-//      int dy = textRect.top + textRect.height() / 2 - staticLayout.getHeight() / 2;
-//      canvas.translate(dx, dy);
-//    }
-//
-//    staticLayout.draw(canvas);
-//    canvas.restore();
-
     canvas.save();
     canvas.concat(matrix);
 

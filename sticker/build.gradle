@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
@@ -25,6 +26,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    implementation "com.androidx.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 //apply plugin: 'com.android.library'
@@ -145,5 +148,8 @@ tasks.withType(Javadoc) {
   options.addStringOption('Xdoclint:none', '-quiet')
   options.addStringOption('encoding', 'UTF-8')
   options.addStringOption('charSet', 'UTF-8')
+}
+repositories {
+    mavenCentral()
 }
 
