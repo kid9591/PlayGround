@@ -35,7 +35,7 @@
 
 <!--    </RelativeLayout>-->
 
-   <!-- <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -88,7 +88,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Font" />
-    </LinearLayout>-->
+    </LinearLayout>
 
 <!--    <com.kid.playground.activity.SampleView-->
 <!--        android:layout_margin="5dp"-->
@@ -96,26 +96,6 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="0dp"-->
 <!--        android:layout_weight="1"/>-->
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:min="-1000"
-        android:max="1000"
-        android:progress="0"/>
-
-    <TextView
-        android:id="@+id/textProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:text="sdfadfds"
-        android:layout_marginBottom="20dp"/>
 
 
 </LinearLayout>
