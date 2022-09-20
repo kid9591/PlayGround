@@ -3,16 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.MainActivity"
-    android:background="@color/white"
     tools:ignore="NamespaceTypo">
 
-    <playwithcustomview.CustomView
-        android:layout_margin="10dp"
-        android:id="@+id/custom_view"
+    <!--    <playwithcustomview.CustomView-->
+    <!--        android:layout_margin="10dp"-->
+    <!--        android:id="@+id/custom_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@android:color/holo_blue_dark"/>-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/holo_blue_dark"/>
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/image" />
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/image_mask" />
+
+    </RelativeLayout>
 
 </LinearLayout>
