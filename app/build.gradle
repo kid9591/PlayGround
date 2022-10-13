@@ -50,4 +50,7 @@ dependencies {
 //    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.20'
     implementation 'com.itextpdf:html2pdf:4.0.1'
 //    implementation project(path: ':sticker')
+
+    implementation 'com.opencsv:opencsv:4.6'
+
 }

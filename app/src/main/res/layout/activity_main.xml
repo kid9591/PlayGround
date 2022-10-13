@@ -8,27 +8,6 @@
     tools:context=".activity.MainActivity"
     tools:ignore="NamespaceTypo">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@android:color/holo_blue_dark">
-
-        <ImageView
-            android:id="@+id/image_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/grass" />
-
-        <ImageView
-            android:id="@+id/imageview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-    </RelativeLayout>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
