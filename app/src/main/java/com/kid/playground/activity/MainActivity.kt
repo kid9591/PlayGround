@@ -1,5 +1,6 @@
 package com.kid.playground.activity
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -21,22 +22,26 @@ class MainActivity : FragmentActivity()  {
 
         setContentView(R.layout.activity_main)
 
-        val path = "$cacheDir/export_barcode_scan.csv"
-
-        findViewById<Button>(R.id.button).setOnClickListener {
-            val reader = CSVReader(FileReader(path), ';')
-            val myEntries: List<*> = reader.readAll()
-            val pairs = mutableListOf<Pair<String, String>>()
-            myEntries.forEach { row ->
-                (row as? Array<*>)?.let { columns ->
-                    pairs.add(Pair(columns.first().toString(), columns.last().toString()))
-                }
-            }
-            pairs.forEachIndexed { index, it ->
-                Log.d("chi.trinh","#$index ${it.first}:${it.second}")
-            }
-        }
+        var title = """
+            <div id="defaultStyleBlupassion" style="font-family: Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-size: 14px;">
+                <p style=""><strong>640 l</strong></p>
+                <p style="font-size: 14px;">170 gal</p>
+            </div>
+        """
+        val it = Color.CYAN
+        val red: Int = Color.red(it)
+        val green: Int = Color.green(it)
+        val blue: Int = Color.blue(it)
+        val regex = Regex("")
+        title =
+            title.replace(regex = Regex("color: rgb\\(\\d{1,3}, \\d{1,3}, \\d{1,3}\\)"),"color: rgb($red, $green, $blue)")
+        Log.d("chi.trinh", title)
     }
+}
+
+fun String?.stripHtml(): String? {
+    val stripRegex = "\\<.*?\\>".toRegex()
+    return this?.replace(stripRegex, "")
 }
 
 
