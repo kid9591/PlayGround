@@ -52,5 +52,5 @@ dependencies {
 //    implementation project(path: ':sticker')
 
     implementation 'com.opencsv:opencsv:4.6'
-
+    implementation 'org.springframework.security:spring-security-crypto:5.7.2'
 }

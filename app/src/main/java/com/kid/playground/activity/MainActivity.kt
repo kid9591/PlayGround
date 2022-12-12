@@ -7,6 +7,7 @@ import android.widget.Button
 import androidx.fragment.app.FragmentActivity
 import com.kid.playground.R
 import com.opencsv.CSVReader
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.io.FileReader
 
 
@@ -22,20 +23,10 @@ class MainActivity : FragmentActivity()  {
 
         setContentView(R.layout.activity_main)
 
-        var title = """
-            <div id="defaultStyleBlupassion" style="font-family: Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-size: 14px;">
-                <p style=""><strong>640 l</strong></p>
-                <p style="font-size: 14px;">170 gal</p>
-            </div>
-        """
-        val it = Color.CYAN
-        val red: Int = Color.red(it)
-        val green: Int = Color.green(it)
-        val blue: Int = Color.blue(it)
-        val regex = Regex("")
-        title =
-            title.replace(regex = Regex("color: rgb\\(\\d{1,3}, \\d{1,3}, \\d{1,3}\\)"),"color: rgb($red, $green, $blue)")
-        Log.d("chi.trinh", title)
+        findViewById<Button>(R.id.button).setOnClickListener {
+            val bPass = BCryptPasswordEncoder(10).encode("auRu4IdaeNg9")
+            Log.d("chi.trinh", bPass)
+        }
     }
 }
 
