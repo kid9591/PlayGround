@@ -1,14 +1,8 @@
 package com.kid.playground.activity
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
 import androidx.fragment.app.FragmentActivity
 import com.kid.playground.R
-import com.opencsv.CSVReader
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import java.io.FileReader
 
 
 //https://stackoverflow.com/questions/15091790/how-to-outline-a-textview
@@ -23,10 +17,6 @@ class MainActivity : FragmentActivity()  {
 
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.button).setOnClickListener {
-            val bPass = BCryptPasswordEncoder(10).encode("auRu4IdaeNg9")
-            Log.d("chi.trinh", bPass)
-        }
     }
 }
 
