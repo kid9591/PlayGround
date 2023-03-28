@@ -8,19 +8,9 @@
     tools:context=".activity.MainActivity"
     tools:ignore="NamespaceTypo">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outlinedTextField"
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="dfsdf"
-        android:textColorHint="@color/black"
-        android:textColor="@color/black"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:id="@+id/button"
+        android:text="Button"/>
 </LinearLayout>
