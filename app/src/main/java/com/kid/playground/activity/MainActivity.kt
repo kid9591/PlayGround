@@ -54,10 +54,14 @@ class MainActivity : FragmentActivity()  {
 
     private lateinit var database: DatabaseReference
 
+    //Some changes here
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+
+        //Some changes here
 
         database = Firebase.database.reference
 
@@ -148,6 +152,8 @@ data class House(
     var name: String = "",
     var note: String = ""
 ) {
+
+    //Some changes here
 
     @Exclude
     fun toMap(): Map<String, Any?> {

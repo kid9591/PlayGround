@@ -5,7 +5,7 @@ import android.graphics.*
 import androidx.appcompat.widget.AppCompatTextView
 import com.kid.playground.R
 
-class SuperTextView(
+class SuperTextView(//Some changes here
     context: Context,
     var borderColor: Int, //relative to font size
     var borderWidth: Float,

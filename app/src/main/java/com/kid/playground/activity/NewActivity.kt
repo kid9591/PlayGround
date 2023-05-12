@@ -12,11 +12,12 @@ import com.kid.playground.R
 //https://stackoverflow.com/questions/14791012/android-textured-text
 
 class NewActivity : FragmentActivity()  {
-
+    //Some changes here
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new)
         Log.d("chi.trinh", "data: ${intent.data}")
+        //Some changes here
     }
 
     override fun onNewIntent(intent: Intent?) {
