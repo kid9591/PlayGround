@@ -1,4 +1,4 @@
-package com.kid.playground
+package com.kid.playground1
 
 import org.junit.Test
 

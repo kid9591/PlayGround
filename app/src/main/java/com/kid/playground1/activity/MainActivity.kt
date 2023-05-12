@@ -1,4 +1,4 @@
-package com.kid.playground.activity
+package com.kid.playground1.activity
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.kid.playground.R
-import org.bouncycastle.asn1.x500.style.RFC4519Style.title
-import org.bouncycastle.asn1.x500.style.RFC4519Style.uid
+import com.kid.playground1.R
 
 
 //https://stackoverflow.com/questions/15091790/how-to-outline-a-textview

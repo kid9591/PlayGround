@@ -9,7 +9,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
 import androidx.annotation.IntRange
 import androidx.core.content.ContextCompat
-import com.kid.playground.R
+import com.kid.playground1.R
 import kotlin.math.roundToInt
 
 /**

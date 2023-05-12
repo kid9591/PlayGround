@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.core.graphics.toRectF
-import com.kid.playground.R
+import com.kid.playground1.R
 
 class CustomView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 

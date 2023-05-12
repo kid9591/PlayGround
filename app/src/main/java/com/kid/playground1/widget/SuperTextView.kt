@@ -1,9 +1,8 @@
-package com.kid.playground.widget
+package com.kid.playground1.widget
 
 import android.content.Context
 import android.graphics.*
 import androidx.appcompat.widget.AppCompatTextView
-import com.kid.playground.R
 
 class SuperTextView(
     context: Context,

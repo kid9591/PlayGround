@@ -1,10 +1,10 @@
-package com.kid.playground.activity
+package com.kid.playground1.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
-import com.kid.playground.R
+import com.kid.playground1.R
 
 
 //https://stackoverflow.com/questions/15091790/how-to-outline-a-textview

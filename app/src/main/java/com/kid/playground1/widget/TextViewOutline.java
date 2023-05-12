@@ -1,4 +1,4 @@
-package com.kid.playground.widget;
+package com.kid.playground1.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.view.View;
-import android.widget.TextView;
 
 public class TextViewOutline extends androidx.appcompat.widget.AppCompatTextView {
     int outline_color;
