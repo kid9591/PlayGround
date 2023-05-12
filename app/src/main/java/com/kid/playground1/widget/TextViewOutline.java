@@ -9,7 +9,7 @@ import android.graphics.Shader;
 import android.view.View;
 
 public class TextViewOutline extends androidx.appcompat.widget.AppCompatTextView {
-    int outline_color;
+    int outline_color;//Some changes here
     float outline_width; //relative to font size
     Shader shader;
 

@@ -4,6 +4,9 @@ package com.kid.playground1.activity
 
 //https://gist.github.com/vgrem/73451bd7273d8b5ba949c4d0fb654ec6
 object UTMConverter {
+
+    //Some changes here
+
     /* Ellipsoid model constants (actual values here are for WGS84) */
     private const val MAJOR_RADIUS = 6378137.0
     private const val MINOR_RADIUS = 6356752.314
@@ -20,6 +23,7 @@ object UTMConverter {
      */
     fun convertToLatLng(x: Double, y: Double, zone: Int, zoneLetter: Char): Pair<Double, Double> {
         val southhemi = zoneLetter.toInt() < 80
+        //Some changes here
         var x = x
         var y = y
         x -= 500000.0
@@ -121,6 +125,8 @@ object UTMConverter {
      * @return The footpoint latitude, in radians.
      */
     private fun getFootpointLatitude(y: Double): Double {
+
+        //Some changes here
 
         /* Precalculate n (Eq. 10.18) */
         val n =

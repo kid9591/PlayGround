@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.*
 import androidx.appcompat.widget.AppCompatTextView
 
-class SuperTextView(
+class SuperTextView(//Some changes here
     context: Context,
     var borderColor: Int, //relative to font size
     var borderWidth: Float,
