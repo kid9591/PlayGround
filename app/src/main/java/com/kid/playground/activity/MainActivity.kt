@@ -1,70 +1,91 @@
 package com.kid.playground.activity
 
-import android.content.res.Resources
+import android.app.Activity
 import android.os.Bundle
-import android.text.InputType
-import android.text.TextUtils
-import android.widget.EditText
-import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
+import android.util.Log
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
 import com.kid.playground.R
-import com.nex3z.flowlayout.FlowLayout
 
-class MainActivity : FragmentActivity()  {
+
+class MainActivity : Activity() {
+
+    var htmlText = """
+        <div id="defaultStyleBlupassion" style="font-family: &quot;Open Sans&quot;; color: rgb(255, 255, 255); font-size: 16px;">
+            <p style="font-size: 16px;"><span style="color: rgb(0, 0, 0);"><span style="color: rgb(143, 206, 0);"><strong>alodf</strong></span> df ___</span></p>
+            <p style="font-size: 16px;"><span style="color: rgb(0, 0, 0);">đfsf ___ <span style="font-family: SVN-ALoveOfThunder;">sdkfjsdfd</span>&nbsp;</span></p>
+            <p style="font-size: 16px;"><span style="color: rgb(0, 0, 0);">dfds ___ fdfkds</span></p>
+            <p style="font-size: 16px;"><span style="color: rgb(0, 0, 0);">trung</span></p>
+        </div>
+    """.trimIndent()
+
+    var htmlWithCss = """
+        <html>
+           <head>
+              <style> 
+                 input[type=text] {
+                 width: 150px;
+                 font-size: 16px;
+                 padding: 8px 8px;
+                 border: 1px solid #000;
+                 border-radius: 5px;
+          		 outline: none;
+                 }
+                 input[type=text]:focus {
+                 border: 1px solid #FF0000;
+                 }
+              </style>
+           </head>
+           <body>
+              %body%
+           </body>
+        </html>
+    """.trimIndent()
+
+    private fun String.replaceInputs(searchStr: String, inputIdPrefix: String): String {
+        var newHtmlString = this
+        var count = 0
+
+        while (true) {
+            val index = newHtmlString.indexOf(searchStr)
+            if (index >= 0) {
+                newHtmlString = newHtmlString
+                    .replaceRange(
+                        index,
+                        index + searchStr.length,
+                        "<input type='text' id='$inputIdPrefix$count' onkeyup='AndroidFunction.processInput(\"$inputIdPrefix$count\", value)'>"
+                    )
+                count++
+            } else {
+                break
+            }
+        }
+
+        return newHtmlString
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        val flowLayout = findViewById<FlowLayout>(R.id.flowLayout)
+        val webview = findViewById<WebView>(R.id.webview)
 
-        flowLayout.addView(TextView(this).apply {
-            text = "Text view 1"
-        })
-        flowLayout.addView(EditText(this).apply {
-            hint = "Edit text 1"
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-            width = 100.px
-        })
-        flowLayout.addView(TextView(this).apply {
-            text = "Text view 2"
-        })
-        flowLayout.addView(EditText(this).apply {
-            hint = "Edit text 2"
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-            width = 120.px
-        })
-        flowLayout.addView(TextView(this).apply {
-            text = "Text view 3"
-        })
-        flowLayout.addView(EditText(this).apply {
-            hint = "Edit text 3"
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-            width = 130.px
-        })
-        flowLayout.addView(TextView(this).apply {
-            text = "Text view 4"
-        })
-        flowLayout.addView(EditText(this).apply {
-            hint = "Edit text 4"
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
-            maxLines = 1
-            ellipsize = TextUtils.TruncateAt.END
-            width = 140.px
-        })
+        //setting
+        webview.settings.javaScriptEnabled = true
+        webview.addJavascriptInterface(WebAppInterface(), "AndroidFunction")
 
+        htmlText = htmlText.replaceInputs("___", "xinput")
+        htmlWithCss = htmlWithCss.replace("%body%", htmlText)
+        Log.d("chi.trinh", "htmlContainerText: \n$htmlWithCss")
+
+        webview.loadDataWithBaseURL(null, htmlWithCss, "text/html", "UTF-8", null)
+    }
+
+    class WebAppInterface {
+        @JavascriptInterface
+        fun processInput(inputId: String, value: String) {
+            Log.d("chi.trinh", "inputId: $inputId, value: $value")
+        }
     }
 }
-
-val Int.dp: Int get() = (this * 1.0 / Resources.getSystem().displayMetrics.density).toInt()
-val Int.px: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
-
-
-

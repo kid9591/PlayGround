@@ -9,61 +9,10 @@
     tools:context=".activity.MainActivity"
     tools:ignore="NamespaceTypo">
 
-    <com.nex3z.flowlayout.FlowLayout
-        android:id="@+id/flowLayout"
+    <WebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:flChildSpacing="10dp"
-        app:flRowVerticalGravity="center">
+        />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv1"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Text view 1" />-->
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/et1"-->
-        <!--            android:layout_width="100dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:hint="Edit text 1"-->
-        <!--            android:inputType="text"-->
-        <!--            android:maxLines="1" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv2"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Text view 2" />-->
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/et2"-->
-        <!--            android:layout_width="150dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:hint="Edit text 2 here"-->
-        <!--            android:inputType="text"-->
-        <!--            android:maxLines="1" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv3"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Text view 3" />-->
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/et3"-->
-        <!--            android:layout_width="200dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:hint="Edit text 3 here"-->
-        <!--            android:inputType="text"-->
-        <!--            android:maxLines="1" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv4"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Text view 4" />-->
-
-    </com.nex3z.flowlayout.FlowLayout>
 </LinearLayout>
