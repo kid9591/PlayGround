@@ -1,89 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.MainActivity"
     tools:ignore="NamespaceTypo">
 
-    <TextView
-        android:id="@+id/textview"
-        android:textSize="@dimen/_30dp"
-        android:text="Loading..."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-
-    <LinearLayout
+    <View
+        android:id="@+id/view_top"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="horizontal">
+        android:layout_height="100dp"
+        android:background="@android:color/holo_blue_light"/>
 
-        <ImageView
-            android:id="@+id/iv1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
-
-        <ImageView
-            android:id="@+id/iv2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
-
-        <ImageView
-            android:id="@+id/iv3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <ScrollView
+        android:layout_below="@+id/view_top"
+        android:layout_above="@+id/view_bottom"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
-        <ImageView
-            android:id="@+id/iv4"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv5"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="some edit text" />
 
-        <ImageView
-            android:id="@+id/iv6"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_dark" />
 
-    </LinearLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="some edit text" />
+        </LinearLayout>
 
-    <LinearLayout
+
+    </ScrollView>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:id="@+id/view_bottom"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="horizontal">
+        android:layout_height="100dp"
+        android:background="@android:color/black" />
 
-        <ImageView
-            android:id="@+id/iv7"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
-
-        <ImageView
-            android:id="@+id/iv8"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
