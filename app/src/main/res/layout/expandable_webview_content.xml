@@ -41,7 +41,6 @@
         android:lineSpacingMultiplier="1.2"
         android:textColor="@android:color/black"
         android:textSize="28sp"
-        android:visibility="gone"
         tools:text="Monday 10 am - 10 pm" />
 
     <Button
