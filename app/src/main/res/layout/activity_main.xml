@@ -1,45 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:padding="16dp"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity"
     tools:ignore="NamespaceTypo">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_all"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:text="All"
-        app:backgroundTint="@android:color/darker_gray"
-        android:textColor="@color/black" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_open"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Open"
-        app:backgroundTint="@android:color/darker_gray"
-        android:textColor="@color/black" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_close"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Close"
-        app:backgroundTint="@android:color/darker_gray"
-        android:textColor="@color/black" />
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
 
-</LinearLayout>
+        <com.kid.playground.activity.ExpandableContentWebView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:html="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"/>
+
+    </ScrollView>
+
+</RelativeLayout>
