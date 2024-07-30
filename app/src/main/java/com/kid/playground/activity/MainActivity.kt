@@ -1,37 +1,40 @@
 package com.kid.playground.activity
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.kid.playground.R
+import com.kid.playground.databinding.ActivityMainBinding
+import java.io.File
 
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
+
+    private val viewmodel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
+            this.viewmodel = this@MainActivity.viewmodel
+            this.lifecycleOwner = this@MainActivity
 
-        val dropdownItems = listOf("a", "b", "c")
-
-        findViewById<AutoCompleteTextView>(R.id.dropdown_text_view).apply {
-            setAdapter(
-                ColorableDropDownAdapter(
-                    Color.YELLOW,
-                    context,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    dropdownItems
-                )
-            )
-            setDropDownBackgroundDrawable(ColorDrawable(Color.GREEN))
+            button.setOnClickListener {
+                val fontFile = File(filesDir, "impact.ttf")
+                val typeface = Typeface.createFromFile(fontFile)
+                this@MainActivity.viewmodel.setTypeface(typeface)
+                this@MainActivity.viewmodel.setFontSize(140)
+                this@MainActivity.viewmodel.setText("abc")
+            }
         }
     }
 }
@@ -43,7 +46,7 @@ class ColorableDropDownAdapter(
     items: List<String>
 ) : ArrayAdapter<String>(context, itemRes, items) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view =  super.getView(position, convertView, parent)
+        val view = super.getView(position, convertView, parent)
         val textview = view.findViewById<TextView>(android.R.id.text1)
         textview.setTextColor(textColor)
         return view
