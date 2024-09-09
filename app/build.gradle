@@ -35,10 +35,17 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
+    packagingOptions {
+        exclude 'versionchanges.txt'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/DEPENDENCIES'
+    }
 }
 
 dependencies {
 
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -61,4 +68,6 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation 'com.google.firebase:firebase-config-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
+
+    implementation 'com.google.mlkit:text-recognition:16.0.1'
 }
