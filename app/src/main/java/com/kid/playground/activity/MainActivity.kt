@@ -1,24 +1,15 @@
 package com.kid.playground.activity
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.kid.playground.R
 import com.kid.playground.databinding.ActivityMainBinding
-import net.sourceforge.tess4j.ITesseract
-import net.sourceforge.tess4j.Tesseract
-import net.sourceforge.tess4j.TesseractException
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
+import java.nio.charset.Charset
+import java.security.SecureRandom
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,79 +24,59 @@ class MainActivity : AppCompatActivity() {
             this.viewmodel = this@MainActivity.viewmodel
             this.lifecycleOwner = this@MainActivity
 
-            // When using Latin script library
-            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+            val input = "{\"urls\":[\"Task/160.000.226.682.465.68/\$accept?ac=c5f760ed19f7968fb61ceb28e446023ed769043dba55ee6ef7161df1bfcb4034\"]}"
 
-            // Đọc ảnh từ assets
-            val assetManager = assets
-            val inputStream: InputStream = assetManager.open("package1.jpg")
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            inputStream.close()
+            val et = encSanicareTokens(input)
+            logDebug { "chi.trinh encryptedTokens: $et" }
+        }
+    }
 
-            val image = InputImage.fromBitmap(bitmap, 0)
+    private fun encSanicareTokens(input: String): String {
 
-            recognizer.process(image)
-                .addOnSuccessListener { result ->
-                    // Task completed successfully
-                    // ...
-                    val resultText = result.text
-                    Log.d(TAG, "resultText: $resultText")
-                    for (block in result.textBlocks) {
-                        val blockText = block.text
-                        Log.d(TAG, "blockText: $blockText")
-                        val blockCornerPoints = block.cornerPoints
-                        val blockFrame = block.boundingBox
-                        for (line in block.lines) {
-                            val lineText = line.text
-                            Log.d(TAG, "lineText: $lineText")
-                            val lineCornerPoints = line.cornerPoints
-                            val lineFrame = line.boundingBox
-                            for (element in line.elements) {
-                                val elementText = element.text
-                                Log.d(TAG, "elementText: $elementText")
-                                val elementCornerPoints = element.cornerPoints
-                                val elementFrame = element.boundingBox
-                            }
-                        }
-                    }
-                }
-                .addOnFailureListener { e ->
-                    // Task failed with an exception
-                    // ...
-                    Toast.makeText(this@MainActivity, "Fail to recognize text: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
-                }
+        val iterationCount = 1000
+        val keySize = 128
 
+        // Tạo salt ngẫu nhiên
+        val salt = ByteArray(16)
+        SecureRandom().nextBytes(salt)
+        logDebug { "chi.trinh salt hex: ${salt.toHex()}" }
+        logDebug { "chi.trinh salt base64: ${Base64.encodeToString(salt, Base64.NO_WRAP)}" }
+        logDebug { "chi.trinh salt: ${String(salt, Charsets.UTF_8)}" }
 
+        //Tạo passphrase ngẫu nhiên
+        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        val passphrase = CharArray(16) { chars[SecureRandom().nextInt(chars.length)] }
+        logDebug { "chi.trinh passphrase: ${passphrase.joinToString("")}" }
+        logDebug { "chi.trinh passphrase hex: ${passphrase.toHex()}" }
 
+        // Tạo iv ngẫu nhiên
+        val iv = ByteArray(16)
+        SecureRandom().nextBytes(iv)
+        logDebug { "chi.trinh iv hex: ${iv.toHex()}" }
 
+        val aesKey = AES.genKey(salt, passphrase, iterationCount, keySize)
+        val cipherText = AES.encrypt(input, iv, aesKey)
+        logDebug { "chi.trinh cipherText: \n$cipherText" }
 
+        val publicRSAKey =
+            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCVk68sHqo91Lo0dy3Hguwk1I/W/XHkzr368LNDM40RBcuxf7g7TXtJNO+FofbaTqRCj3Gxkt9FaO6a0K0snG2zIApWIkwut6vilxiTfe5KyZJs3nCPoRPjkWf5aCBRcEG4XcTQ1/9F6ZMa7mSpIU4XInmQWxQPYE4DcoR+7WueWwIDAQAB"
+        val cipherKeySpec =
+            RSA.encrypt("$iterationCount:::$keySize:::${iv.toHex()}:::${salt.toHex()}:::${passphrase.toHex()}", publicRSAKey)
+        logDebug { "chi.trinh cipherKeySpec: $cipherKeySpec" }
 
-//            // Đọc ảnh từ assets
-//            // Đọc ảnh từ assets
-//            val assetManager = assets
-//            val inputStream: InputStream = assetManager.open("package.jpg")
-//            val bitmap = BitmapFactory.decodeStream(inputStream)
-//            inputStream.close()
-//
-//            // Tạo file tạm thời
-//            val tempFile = File.createTempFile("package", ".jpg")
-//            val out = FileOutputStream(tempFile)
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
-//            out.close()
-//
-//            val instance: ITesseract = Tesseract() // JNA Interface Mapping
-//
-//            // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-//            // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-//            instance.setDatapath("tessdata") // path to tessdata directory
-//
-//
-//            try {
-//                val result: String = instance.doOCR(tempFile)
-//                println(result)
-//            } catch (e: TesseractException) {
-//                System.err.println(e.message)
-//            }
+        return "$cipherKeySpec:::$cipherText"
+    }
+
+    fun CharArray.toHex(charset: Charset = Charsets.UTF_8): String {
+        val bytes = toString().toByteArray(charset)
+        return bytes.joinToString("") {
+            it.toString(16).padStart(2, '0')
         }
     }
 }
+
+inline fun Any.logDebug(crossinline block: () -> String) {
+    Log.d(this::class.java.simpleName, block())
+}
+
+fun ByteArray.toHex(): String = joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
