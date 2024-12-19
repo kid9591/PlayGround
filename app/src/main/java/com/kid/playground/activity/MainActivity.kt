@@ -4,20 +4,16 @@ import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.webkit.JavascriptInterface
-import android.webkit.WebView
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.kid.playground.R
-import java.util.Random
-import kotlin.math.sign
+import java.io.File
+import java.nio.charset.Charset
+import java.util.*
 
 
 class MainActivity : Activity() {
@@ -405,63 +401,101 @@ class MainActivity : Activity() {
 
         setContentView(R.layout.activity_main)
 
-        val textView = findViewById<TextView>(R.id.textview)
+        val file = File("${application.filesDir.absolutePath}/test.txt")
+        if (file.exists()) {
+            file.delete()
+        }
 
-        imageUrls.forEach { url ->
-            Log.v("chi.trinh", "start load: $url")
-
-            val preloadSize = if (url.contains("/ardetail/")) {
-                300
+        """
+                                                           <BESTELLUNG>
+                                                             <VERSION>2.0</VERSION>
+                                                             <STATUS>Bestellung</STATUS>
+                                                             <PLATINSHOP_INTERNAL_ORDER_ID>blupassion_order_id</PLATINSHOP_INTERNAL_ORDER_ID>
+                                                             <AUFTRAGSNUMMER>blupassion_order_id</AUFTRAGSNUMMER>
+                                                             <BESTELLZEIT>2024-12-19 14:48:46</BESTELLZEIT>
+                                                             <GESCHAEFTSPARTNER>
+                                                               <GPNUMMER/>
+                                                               <TRAFFICLIGHT_STATE/>
+                                                               <TRAFFICLIGHT_VALUE></TRAFFICLIGHT_VALUE>
+                                                               <TRAFFICLIGHT_DATE>19.12.2024</TRAFFICLIGHT_DATE>
+                                                               <ADRESSE>
+                                                                 <GPANREDE></GPANREDE>
+                                                                 <TITEL></TITEL>
+                                                                 <TELEFONGESCHAEFTLICH/>
+                                                                 <ORT></ORT>
+                                                                 <FIRMA/>
+                                                                 <LAND></LAND>
+                                                                 <EMAIL></EMAIL>
+                                                                 <FAX/>
+                                                                 <VORNAME></VORNAME>
+                                                                 <NACHNAME></NACHNAME>
+                                                                 <TELEFONPRIVAT></TELEFONPRIVAT>
+                                                                 <TELEFONMOBIL/>
+                                                                 <STRASSE>Grüner Weg</STRASSE>
+                                                                 <PLZ></PLZ>
+                                                               </ADRESSE>
+                                                               <COOPERATION_PARTNER_NUMBER></COOPERATION_PARTNER_NUMBER>
+                                                               <PARTNER>APP CardLink</PARTNER>
+                                                               <GPGEBDATUM></GPGEBDATUM>
+                                                               <CUSTOMERID></CUSTOMERID>
+                                                             </GESCHAEFTSPARTNER>
+                                                             <LIEFERADRESSE>
+                                                               <GPANREDE></GPANREDE>
+                                                               <TITEL></TITEL>
+                                                               <TELEFONGESCHAEFTLICH/>
+                                                               <ORT></ORT>
+                                                               <LAND>Deutschland</LAND>
+                                                               <EMAIL></EMAIL>
+                                                               <FAX/>
+                                                               <VORNAME></VORNAME>
+                                                               <NACHNAME></NACHNAME>
+                                                               <TELEFONPRIVAT></TELEFONPRIVAT>
+                                                               <TELEFONMOBIL/>
+                                                               <FIRMA/>
+                                                               <STRASSE></STRASSE>
+                                                               <PLZ></PLZ>
+                                                             </LIEFERADRESSE>
+                                                             <BESTELLTEARTIKEL>
+                                                               <ARTIKEL>
+                                                                 <PZN>17</PZN>
+                                                                 <MENGE>0</MENGE>
+                                                                 <PREIS>0</PREIS>
+                                                                 <NAME>#PfAPP CardLink</NAME>
+                                                                 <POSITIONNOTIZ/>
+                                                               </ARTIKEL>
+                                                           
+                                                             </BESTELLTEARTIKEL>
+                                                             <VERSANDKOSTEN>0.0</VERSANDKOSTEN>
+                                                             <GESAMTPREIS>0.0</GESAMTPREIS>
+                                                             <ZAHLUNG>
+                                                               <TYP>Rechnung</TYP>
+                                                               <EXTERN_BEZAHLT/>
+                                                               <TRANSAKTIONSID/>
+                                                               <BLZ/>
+                                                               <KONTOINHABER/>
+                                                               <KONTONUMMER/>
+                                                               <IBAN></IBAN>
+                                                               <BIC></BIC>
+                                                             </ZAHLUNG>
+                                                             <REZEPTFOLGT>NEIN</REZEPTFOLGT>
+                                                             <VERTRIEBSWEG>Standardversand</VERTRIEBSWEG>
+                                                             <VERTRIEBSWEGID/>
+                                                             <VORTEILSCODE>Standardversand</VORTEILSCODE>
+                                                             <AUTOVORGFELD>
+                                                               <TYP>Rechnung</TYP>
+                                                               <CUSTOMERID/>
+                                                               <FELD_NAME/>
+                                                               <FELD_WERT/>
+                                                               <FELD_NR>10000</FELD_NR>
+                                                             </AUTOVORGFELD>
+                                                           </BESTELLUNG>
+        """.trimIndent().byteInputStream(Charset.forName("IBM437")).use { inputStream ->
+            val copiedBytes = inputStream.copyTo(file.outputStream(), 1024)
+            if (file.length() != copiedBytes) {
+                Log.d("chi.trinh","error")
             } else {
-                Target.SIZE_ORIGINAL
+                Log.d("chi.trinh","ok")
             }
-
-            Glide.with(applicationContext)
-                .load(url)
-                .priority(Priority.IMMEDIATE)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .addListener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        Log.v(
-                            "chi.trinh",
-                            "preload - onLoadFailed: url = $url" + "\n----e.message: " + e?.message
-                        )
-                        loadedCount += 1
-                        if (loadedCount >= imageUrls.size) {
-                            Log.v(
-                                "chi.trinh", "preload DONE!!!"
-                            )
-                            textView.text = "DONE"
-                            loadRandomImages()
-                        }
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        Log.v("chi.trinh", "preload - onResourceReady: url = $url")
-                        loadedCount += 1
-                        if (loadedCount >= imageUrls.size) {
-                            Log.v(
-                                "chi.trinh", "preload DONE!!!"
-                            )
-                            textView.text = "DONE"
-                            loadRandomImages()
-                        }
-                        return false
-                    }
-                })
-                .preload(preloadSize, preloadSize)
         }
     }
 
