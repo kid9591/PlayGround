@@ -1,0 +1,35 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kid.playground",
+      "sha256_cert_fingerprints": [
+        "05:CB:BD:62:DF:70:56:A6:1D:52:C9:22:C6:28:FA:75:1F:1B:CB:7D:0C:88:F1:BB:10:EE:7A:77:0D:FD:58:50"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "web",
+      "site": "https://blupassionsystem.de:8443/blupassionchat"
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "de.ikssoftware.blupassion.testingnew",
+      "sha256_cert_fingerprints": [
+        "97:CC:E5:2C:C3:A0:6A:1C:4F:F6:C3:BE:DA:24:31:CD:C3:BA:46:91:DE:3A:E6:00:A8:F4:CD:02:8E:10:01:38"
+      ]
+    }
+  }
+]
